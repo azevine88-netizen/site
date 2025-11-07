@@ -1,0 +1,1233 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-translate="title">StreamMax - Premium Film ve Dizi Platformu</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="StreamMax ile sınırsız film ve dizi keyfi! En yeni içerikler, HD kalite, çoklu dil desteği. Hemen üye ol, eğlenceye başla!">
+    <meta name="keywords" content="film, dizi, streaming, netflix, hbo, disney, amazon prime, online film izle, dizi izle, türkçe dublaj, altyazı">
+    <meta name="author" content="StreamMax">
+    <meta name="robots" content="index, follow">
+    <meta name="language" content="Turkish">
+    <meta name="revisit-after" content="7 days">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="StreamMax - Premium Film ve Dizi Platformu">
+    <meta property="og:description" content="StreamMax ile sınırsız film ve dizi keyfi! En yeni içerikler, HD kalite, çoklu dil desteği.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://streammax.com">
+    <meta property="og:image" content="https://streammax.com/images/og-image.jpg">
+    <meta property="og:site_name" content="StreamMax">
+    <meta property="og:locale" content="tr_TR">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="StreamMax - Premium Film ve Dizi Platformu">
+    <meta name="twitter:description" content="StreamMax ile sınırsız film ve dizi keyfi! En yeni içerikler, HD kalite, çoklu dil desteği.">
+    <meta name="twitter:image" content="https://streammax.com/images/twitter-card.jpg">
+    
+    <!-- Additional Meta Tags -->
+    <meta name="theme-color" content="#00d4ff">
+    <meta name="msapplication-TileColor" content="#00d4ff">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="StreamMax">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://streammax.com">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- Custom CSS for Content Sections -->
+    <style>
+        .content-sections {
+            position: relative;
+            min-height: 100vh;
+        }
+        
+        .content-section {
+            display: none;
+            padding: 80px 0;
+            background: linear-gradient(135deg, #0c0c0c 0%, #1a1a1a 100%);
+            color: white;
+            min-height: 100vh;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease-in-out;
+        }
+        
+        .content-section.active {
+            display: block !important;
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .content-section h2 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #00d4ff, #ff6b6b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .content-section p {
+            font-size: 1.2rem;
+            color: #cccccc;
+            max-width: 600px;
+            line-height: 1.6;
+        }
+        
+        /* Smooth transitions for all elements */
+        * {
+            transition: all 0.3s ease;
+        }
+        
+        /* Header navigation hover effects */
+        .nav-link {
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-link:hover {
+            color: #00d4ff !important;
+            transform: translateY(-2px);
+        }
+        
+        .nav-link.active {
+            color: #00d4ff !important;
+        }
+        
+        .nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(45deg, #00d4ff, #ff6b6b);
+            border-radius: 2px;
+        }
+        
+        /* Profile menu animations */
+        .user-dropdown {
+            transition: all 0.3s ease;
+            transform: translateY(-10px);
+            opacity: 0;
+        }
+        
+        .user-dropdown.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        
+        /* Mobile menu animations */
+        .nav.active {
+            transform: translateX(0);
+        }
+        
+        .mobile-menu-btn.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+        
+        .mobile-menu-btn.active span:nth-child(2) {
+            opacity: 0;
+        }
+        
+        .mobile-menu-btn.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -6px);
+        }
+    </style>
+    
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "StreamMax",
+        "alternateName": "StreamMax Premium",
+        "url": "https://streammax.com",
+        "description": "StreamMax ile sınırsız film ve dizi keyfi! En yeni içerikler, HD kalite, çoklu dil desteği.",
+        "publisher": {
+            "@type": "Organization",
+            "name": "StreamMax",
+            "url": "https://streammax.com",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "https://streammax.com/images/logo.png"
+            }
+        },
+        "potentialAction": {
+            "@type": "SearchAction",
+            "target": "https://streammax.com/search?q={search_term_string}",
+            "query-input": "required name=search_term_string"
+        },
+        "sameAs": [
+            "https://www.facebook.com/streammax",
+            "https://www.twitter.com/streammax",
+            "https://www.instagram.com/streammax"
+        ]
+    }
+    </script>
+    
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "VideoObject",
+        "name": "StreamMax Premium Content",
+        "description": "Sınırsız film ve dizi keyfi StreamMax ile!",
+        "thumbnailUrl": "https://streammax.com/images/hero-thumbnail.jpg",
+        "uploadDate": "2024-01-01",
+        "duration": "PT2H30M",
+        "contentUrl": "https://streammax.com/video/sample",
+        "embedUrl": "https://streammax.com/embed/sample",
+        "publisher": {
+            "@type": "Organization",
+            "name": "StreamMax",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "https://streammax.com/images/logo.png"
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <h1>StreamMax</h1>
+                </div>
+                <nav class="nav">
+                    <ul>
+                        <li><a href="javascript:void(0)" class="nav-link active" data-section="home" data-translate="nav.home">Ana Sayfa</a></li>
+                        <li><a href="javascript:void(0)" class="nav-link" data-section="series" data-translate="nav.series">Diziler</a></li>
+                        <li><a href="javascript:void(0)" class="nav-link" data-section="movies" data-translate="nav.movies">Filmler</a></li>
+                        <li><a href="javascript:void(0)" class="nav-link" data-section="trending" data-translate="nav.trending">Yeni & Popüler</a></li>
+                        <li><a href="javascript:void(0)" class="nav-link" data-section="mylist" data-translate="nav.mylist">Listem</a></li>
+                    </ul>
+                </nav>
+                
+                <!-- Mobile Menu Button -->
+                <button class="mobile-menu-btn" id="mobileMenuBtn">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                <div class="header-actions">
+                    <div class="search-container">
+                        <i class="fas fa-search search-icon"></i>
+                        <input type="text" class="search-input" id="searchInput" placeholder="Film, dizi, oyuncu ara..." data-translate="search.placeholder">
+                        <div class="search-history-container" id="searchHistoryContainer">
+                            <div class="history-item">
+                                <i class="fas fa-history"></i>
+                                <span>Stranger Things</span>
+                            </div>
+                            <div class="history-item">
+                                <i class="fas fa-history"></i>
+                                <span>The Crown</span>
+                            </div>
+                            <div class="history-item">
+                                <i class="fas fa-history"></i>
+                                <span>Bridgerton</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="user-menu" id="userMenu">
+                        <div class="user-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="dropdown">
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="user-dropdown" id="userDropdown">
+                            <a href="#login" class="dropdown-item login-item">
+                                <i class="fas fa-sign-in-alt"></i>
+                                <span data-translate="login">Giriş Yap</span>
+                            </a>
+                            <a href="#profile" class="dropdown-item profile-item">
+                                <i class="fas fa-user"></i>
+                                <span data-translate="profile">Profil</span>
+                            </a>
+                            <a href="#settings" class="dropdown-item settings-item">
+                                <i class="fas fa-cog"></i>
+                                <span data-translate="settings">Ayarlar</span>
+                            </a>
+                            <a href="#help" class="dropdown-item help-item">
+                                <i class="fas fa-question-circle"></i>
+                                <span data-translate="help">Yardım</span>
+                            </a>
+                            <div class="dropdown-item language-item" id="languageItem">
+                                <i class="fas fa-globe"></i>
+                                <span class="language-text" data-translate="language">Dil</span>
+                                <i class="fas fa-chevron-right language-arrow"></i>
+                                <div class="language-dropdown" id="languageDropdown">
+                                    <div class="language-option" data-lang="tr">
+                                        <span class="flag">🇹🇷</span>
+                                        <span class="name">Türkçe</span>
+                                    </div>
+                                    <div class="language-option" data-lang="en">
+                                        <span class="flag">🇺🇸</span>
+                                        <span class="name">English</span>
+                                    </div>
+                                    <div class="language-option" data-lang="es">
+                                        <span class="flag">🇪🇸</span>
+                                        <span class="name">Español</span>
+                                    </div>
+                                    <div class="language-option" data-lang="fr">
+                                        <span class="flag">🇫🇷</span>
+                                        <span class="name">Français</span>
+                                    </div>
+                                    <div class="language-option" data-lang="de">
+                                        <span class="flag">🇩🇪</span>
+                                        <span class="name">Deutsch</span>
+                                    </div>
+                                    <div class="language-option" data-lang="it">
+                                        <span class="flag">🇮🇹</span>
+                                        <span class="name">Italiano</span>
+                                    </div>
+                                    <div class="language-option" data-lang="pt">
+                                        <span class="flag">🇵🇹</span>
+                                        <span class="name">Português</span>
+                                    </div>
+                                    <div class="language-option" data-lang="ru">
+                                        <span class="flag">🇷🇺</span>
+                                        <span class="name">Русский</span>
+                                    </div>
+                                    <div class="language-option" data-lang="zh">
+                                        <span class="flag">🇨🇳</span>
+                                        <span class="name">中文</span>
+                                    </div>
+                                    <div class="language-option" data-lang="ja">
+                                        <span class="flag">🇯🇵</span>
+                                        <span class="name">日本語</span>
+                                    </div>
+                                    <div class="language-option" data-lang="ko">
+                                        <span class="flag">🇰🇷</span>
+                                        <span class="name">한국어</span>
+                                    </div>
+                                    <div class="language-option" data-lang="ar">
+                                        <span class="flag">🇸🇦</span>
+                                        <span class="name">العربية</span>
+                                    </div>
+                                    <div class="language-option" data-lang="hi">
+                                        <span class="flag">🇮🇳</span>
+                                        <span class="name">हिन्दी</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="#logout" class="dropdown-item logout-item">
+                                <i class="fas fa-sign-out-alt"></i>
+                                <span data-translate="logout">Çıkış Yap</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="main-content">
+        <div class="hero-background">
+            <img src="https://images.unsplash.com/photo-1489599808660-0b8b4b8b8b8b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Hero Background">
+            <div class="hero-overlay"></div>
+        </div>
+        <div class="hero-content">
+            <div class="container">
+                <h1 class="hero-title" data-translate="hero.title">Sınırsız Film, Dizi ve Çok Daha Fazlası</h1>
+                <p class="hero-subtitle" data-translate="hero.subtitle">İstediğiniz yerde izleyin. İstediğiniz zaman iptal edin.</p>
+                <div class="hero-actions">
+                    <button class="btn btn-primary hero-play-btn" data-action="play">
+                        <i class="fas fa-play"></i>
+                        <span data-translate="hero.play">Oynat</span>
+                    </button>
+                    <button class="btn btn-secondary hero-info-btn" data-action="info">
+                        <i class="fas fa-info-circle"></i>
+                        <span data-translate="hero.info">Daha Fazla Bilgi</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Content Sections -->
+    <div class="content-sections">
+        <!-- Ana Sayfa Section -->
+        <section class="content-section active" id="home-section">
+            <div class="container">
+                <h2>Ana Sayfa</h2>
+                <p>Hoş geldiniz! Burada önerilen içerikleri bulabilirsiniz.</p>
+            </div>
+        </section>
+
+        <!-- Diziler Section -->
+        <section class="content-section" id="series-section">
+            <div class="container">
+                <h2>Diziler</h2>
+                <p>En popüler dizileri keşfedin.</p>
+            </div>
+        </section>
+
+        <!-- Filmler Section -->
+        <section class="content-section" id="movies-section">
+            <div class="container">
+                <h2>Filmler</h2>
+                <p>En yeni filmleri izleyin.</p>
+            </div>
+        </section>
+
+        <!-- Yeni & Popüler Section -->
+        <section class="content-section" id="trending-section">
+            <div class="container">
+                <h2>Yeni & Popüler</h2>
+                <p>Trend olan içerikleri keşfedin.</p>
+            </div>
+        </section>
+
+        <!-- Listem Section -->
+        <section class="content-section" id="mylist-section">
+            <div class="container">
+                <h2>Listem</h2>
+                <p>Kaydettiğiniz içerikleri burada bulabilirsiniz.</p>
+            </div>
+        </section>
+    </div>
+
+    <!-- Categories Section -->
+    <section class="categories">
+        <div class="container">
+            <!-- Trending Now -->
+            <div class="category-section" data-category="trending">
+                <h2 class="category-title" data-translate="categories.trending">Trend Olanlar</h2>
+                <div class="movie-row">
+                    <div class="movie-card">
+                        <img src="https://images.unsplash.com/photo-1489599808660-0b8b4b8b8b8b?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80" alt="Movie 1">
+                        <div class="movie-overlay">
+                            <div class="movie-info">
+                                <h3>Stranger Things</h3>
+                                <p>Drama, Korku</p>
+                                <div class="movie-actions">
+                                    <button class="btn-play" data-action="play"><i class="fas fa-play"></i></button>
+                                    <button class="btn-add" data-action="add"><i class="fas fa-plus"></i></button>
+                                    <button class="btn-like" data-action="like"><i class="fas fa-thumbs-up"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="movie-card">
+                        <img src="https://images.unsplash.com/photo-1489599808660-0b8b4b8b8b8b?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80" alt="Movie 2">
+                        <div class="movie-overlay">
+                            <div class="movie-info">
+                                <h3>The Crown</h3>
+                                <p>Drama, Tarih</p>
+                                <div class="movie-actions">
+                                    <button class="btn-play" data-action="play"><i class="fas fa-play"></i></button>
+                                    <button class="btn-add" data-action="add"><i class="fas fa-plus"></i></button>
+                                    <button class="btn-like" data-action="like"><i class="fas fa-thumbs-up"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="movie-card">
+                        <img src="https://images.unsplash.com/photo-1489599808660-0b8b4b8b8b8b?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80" alt="Movie 3">
+                        <div class="movie-overlay">
+                            <div class="movie-info">
+                                <h3>Bridgerton</h3>
+                                <p>Romantik, Drama</p>
+                                <div class="movie-actions">
+                                    <button class="btn-play" data-action="play"><i class="fas fa-play"></i></button>
+                                    <button class="btn-add" data-action="add"><i class="fas fa-plus"></i></button>
+                                    <button class="btn-like" data-action="like"><i class="fas fa-thumbs-up"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="movie-card">
+                        <img src="https://images.unsplash.com/photo-1489599808660-0b8b4b8b8b8b?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80" alt="Movie 4">
+                        <div class="movie-overlay">
+                            <div class="movie-info">
+                                <h3>Ozark</h3>
+                                <p>Gerilim, Suç</p>
+                                <div class="movie-actions">
+                                    <button class="btn-play" data-action="play"><i class="fas fa-play"></i></button>
+                                    <button class="btn-add" data-action="add"><i class="fas fa-plus"></i></button>
+                                    <button class="btn-like" data-action="like"><i class="fas fa-thumbs-up"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="movie-card">
+                        <img src="https://images.unsplash.com/photo-1489599808660-0b8b4b8b8b8b?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80" alt="Movie 5">
+                        <div class="movie-overlay">
+                            <div class="movie-info">
+                                <h3>Money Heist</h3>
+                                <p>Aksiyon, Suç</p>
+                                <div class="movie-actions">
+                                    <button class="btn-play" data-action="play"><i class="fas fa-play"></i></button>
+                                    <button class="btn-add" data-action="add"><i class="fas fa-plus"></i></button>
+                                    <button class="btn-like" data-action="like"><i class="fas fa-thumbs-up"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Popular Movies -->
+            <div class="category-section" data-category="popular">
+                <h2 class="category-title">Popüler Filmler</h2>
+                <div class="movie-row">
+                    <div class="movie-card">
+                        <img src="https://images.unsplash.com/photo-1489599808660-0b8b4b8b8b8b?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80" alt="Movie 6">
+                        <div class="movie-overlay">
+                            <div class="movie-info">
+                                <h3>Extraction 2</h3>
+                                <p>Aksiyon, Gerilim</p>
+                                <div class="movie-actions">
+                                    <button class="btn-play" data-action="play"><i class="fas fa-play"></i></button>
+                                    <button class="btn-add" data-action="add"><i class="fas fa-plus"></i></button>
+                                    <button class="btn-like" data-action="like"><i class="fas fa-thumbs-up"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="movie-card">
+                        <img src="https://images.unsplash.com/photo-1489599808660-0b8b4b8b8b8b?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80" alt="Movie 7">
+                        <div class="movie-overlay">
+                            <div class="movie-info">
+                                <h3>Red Notice</h3>
+                                <p>Aksiyon, Komedi</p>
+                                <div class="movie-actions">
+                                    <button class="btn-play" data-action="play"><i class="fas fa-play"></i></button>
+                                    <button class="btn-add" data-action="add"><i class="fas fa-plus"></i></button>
+                                    <button class="btn-like" data-action="like"><i class="fas fa-thumbs-up"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="movie-card">
+                        <img src="https://images.unsplash.com/photo-1489599808660-0b8b4b8b8b8b?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80" alt="Movie 8">
+                        <div class="movie-overlay">
+                            <div class="movie-info">
+                                <h3>Don't Look Up</h3>
+                                <p>Komedi, Drama</p>
+                                <div class="movie-actions">
+                                    <button class="btn-play" data-action="play"><i class="fas fa-play"></i></button>
+                                    <button class="btn-add" data-action="add"><i class="fas fa-plus"></i></button>
+                                    <button class="btn-like" data-action="like"><i class="fas fa-thumbs-up"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="movie-card">
+                        <img src="https://images.unsplash.com/photo-1489599808660-0b8b4b8b8b8b?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80" alt="Movie 9">
+                        <div class="movie-overlay">
+                            <div class="movie-info">
+                                <h3>The Irishman</h3>
+                                <p>Suç, Drama</p>
+                                <div class="movie-actions">
+                                    <button class="btn-play" data-action="play"><i class="fas fa-play"></i></button>
+                                    <button class="btn-add" data-action="add"><i class="fas fa-plus"></i></button>
+                                    <button class="btn-like" data-action="like"><i class="fas fa-thumbs-up"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="movie-card">
+                        <img src="https://images.unsplash.com/photo-1489599808660-0b8b4b8b8b8b?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80" alt="Movie 10">
+                        <div class="movie-overlay">
+                            <div class="movie-info">
+                                <h3>Bird Box</h3>
+                                <p>Korku, Gerilim</p>
+                                <div class="movie-actions">
+                                    <button class="btn-play" data-action="play"><i class="fas fa-play"></i></button>
+                                    <button class="btn-add" data-action="add"><i class="fas fa-plus"></i></button>
+                                    <button class="btn-like" data-action="like"><i class="fas fa-thumbs-up"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- New Releases -->
+            <div class="category-section" data-category="new">
+                <h2 class="category-title" data-translate="categories.new">Yeni Çıkanlar</h2>
+                <div class="movie-row">
+                    <div class="movie-card">
+                        <img src="https://images.unsplash.com/photo-1489599808660-0b8b4b8b8b8b?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80" alt="Movie 11">
+                        <div class="movie-overlay">
+                            <div class="movie-info">
+                                <h3>Wednesday</h3>
+                                <p>Komedi, Korku</p>
+                                <div class="movie-actions">
+                                    <button class="btn-play" data-action="play"><i class="fas fa-play"></i></button>
+                                    <button class="btn-add" data-action="add"><i class="fas fa-plus"></i></button>
+                                    <button class="btn-like" data-action="like"><i class="fas fa-thumbs-up"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="movie-card">
+                        <img src="https://images.unsplash.com/photo-1489599808660-0b8b4b8b8b8b?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80" alt="Movie 12">
+                        <div class="movie-overlay">
+                            <div class="movie-info">
+                                <h3>Glass Onion</h3>
+                                <p>Gizem, Komedi</p>
+                                <div class="movie-actions">
+                                    <button class="btn-play" data-action="play"><i class="fas fa-play"></i></button>
+                                    <button class="btn-add" data-action="add"><i class="fas fa-plus"></i></button>
+                                    <button class="btn-like" data-action="like"><i class="fas fa-thumbs-up"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="movie-card">
+                        <img src="https://images.unsplash.com/photo-1489599808660-0b8b4b8b8b8b?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80" alt="Movie 13">
+                        <div class="movie-overlay">
+                            <div class="movie-info">
+                                <h3>Enola Holmes 2</h3>
+                                <p>Gizem, Macera</p>
+                                <div class="movie-actions">
+                                    <button class="btn-play" data-action="play"><i class="fas fa-play"></i></button>
+                                    <button class="btn-add" data-action="add"><i class="fas fa-plus"></i></button>
+                                    <button class="btn-like" data-action="like"><i class="fas fa-thumbs-up"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="movie-card">
+                        <img src="https://images.unsplash.com/photo-1489599808660-0b8b4b8b8b8b?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80" alt="Movie 14">
+                        <div class="movie-overlay">
+                            <div class="movie-info">
+                                <h3>All Quiet on the Western Front</h3>
+                                <p>Savaş, Drama</p>
+                                <div class="movie-actions">
+                                    <button class="btn-play" data-action="play"><i class="fas fa-play"></i></button>
+                                    <button class="btn-add" data-action="add"><i class="fas fa-plus"></i></button>
+                                    <button class="btn-like" data-action="like"><i class="fas fa-thumbs-up"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="movie-card">
+                        <img src="https://images.unsplash.com/photo-1489599808660-0b8b4b8b8b8b?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80" alt="Movie 15">
+                        <div class="movie-overlay">
+                            <div class="movie-info">
+                                <h3>Pinocchio</h3>
+                                <p>Animasyon, Aile</p>
+                                <div class="movie-actions">
+                                    <button class="btn-play" data-action="play"><i class="fas fa-play"></i></button>
+                                    <button class="btn-add" data-action="add"><i class="fas fa-plus"></i></button>
+                                    <button class="btn-like" data-action="like"><i class="fas fa-thumbs-up"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>StreamMax</h3>
+                    <p data-translate="footer.tagline">Sınırsız eğlence, istediğiniz yerde.</p>
+                </div>
+                <div class="footer-section">
+                    <h4 data-translate="footer.about">Hakkında</h4>
+                    <ul>
+                        <li><a href="#about" class="footer-link" data-page="about" data-translate="footer.about_us">Hakkımızda</a></li>
+                        <li><a href="#careers" class="footer-link" data-page="careers" data-translate="footer.careers">Kariyer</a></li>
+                        <li><a href="#press" class="footer-link" data-page="press">Basın</a></li>
+                        <li><a href="#investors" class="footer-link" data-page="investors">Yatırımcılar</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Yardım</h4>
+                    <ul>
+                        <li><a href="#account" class="footer-link" data-page="account">Hesap</a></li>
+                        <li><a href="#help-center" class="footer-link" data-page="help-center">Merkez</a></li>
+                        <li><a href="#media-center" class="footer-link" data-page="media-center">Medya Merkezi</a></li>
+                        <li><a href="#investor-relations" class="footer-link" data-page="investor-relations">Yatırımcı İlişkileri</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Yasal</h4>
+                    <ul>
+                        <li><a href="#privacy" class="footer-link" data-page="privacy">Gizlilik</a></li>
+                        <li><a href="#cookies" class="footer-link" data-page="cookies">Çerez Tercihleri</a></li>
+                        <li><a href="#legal" class="footer-link" data-page="legal">Yasal Bildirimler</a></li>
+                        <li><a href="#terms" class="footer-link" data-page="terms">Kullanım Şartları</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 StreamMax. Tüm hakları saklıdır.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Video Player Modal -->
+    <div class="video-player-modal" id="videoPlayerModal">
+        <div class="video-player-container">
+            <div class="video-player-header">
+                <h3 class="video-title" id="videoTitle">Film Başlığı</h3>
+                <button class="video-close-btn" id="videoCloseBtn">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="video-player-wrapper">
+                <video id="videoPlayer" class="video-element" preload="metadata">
+                    <source id="videoSource" src="" type="video/mp4">
+                    <track id="subtitleTrack" kind="subtitles" srclang="tr" label="Türkçe" default>
+                    Tarayıcınız video oynatmayı desteklemiyor.
+                </video>
+                <div class="video-controls" id="videoControls">
+                    <div class="video-progress">
+                        <div class="video-progress-bar">
+                            <div class="video-progress-filled" id="videoProgressFilled"></div>
+                            <div class="video-progress-handle" id="videoProgressHandle"></div>
+                        </div>
+                    </div>
+                    <div class="video-controls-bottom">
+                        <div class="video-controls-left">
+                            <button class="video-btn play-pause-btn" id="playPauseBtn">
+                                <i class="fas fa-play"></i>
+                            </button>
+                            <div class="video-time">
+                                <span id="currentTime">0:00</span>
+                                <span class="time-separator">/</span>
+                                <span id="totalTime">0:00</span>
+                            </div>
+                            <button class="video-btn volume-btn" id="volumeBtn">
+                                <i class="fas fa-volume-up"></i>
+                            </button>
+                            <div class="volume-slider">
+                                <input type="range" id="volumeSlider" min="0" max="100" value="100">
+                            </div>
+                        </div>
+                        <div class="video-controls-right">
+                            <button class="video-btn subtitle-btn" id="subtitleBtn">
+                                <i class="fas fa-closed-captioning"></i>
+                            </button>
+                            <button class="video-btn settings-btn" id="settingsBtn">
+                                <i class="fas fa-cog"></i>
+                            </button>
+                            <button class="video-btn fullscreen-btn" id="fullscreenBtn">
+                                <i class="fas fa-expand"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="video-loading" id="videoLoading">
+                    <div class="loading-spinner"></div>
+                    <p>Video yükleniyor...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Subtitle Settings Modal -->
+    <div class="subtitle-settings-modal" id="subtitleSettingsModal">
+        <div class="subtitle-settings-content">
+            <h3>Altyazı Ayarları</h3>
+            <div class="subtitle-options">
+                <label>
+                    <input type="radio" name="subtitle" value="off" checked>
+                    <span>Kapalı</span>
+                </label>
+                <label>
+                    <input type="radio" name="subtitle" value="tr">
+                    <span>Türkçe</span>
+                </label>
+                <label>
+                    <input type="radio" name="subtitle" value="en">
+                    <span>İngilizce</span>
+                </label>
+                <label>
+                    <input type="radio" name="subtitle" value="es">
+                    <span>İspanyolca</span>
+                </label>
+                <label>
+                    <input type="radio" name="subtitle" value="fr">
+                    <span>Fransızca</span>
+                </label>
+            </div>
+            <div class="subtitle-style">
+                <h4>Altyazı Stili</h4>
+                <div class="style-options">
+                    <label>
+                        <span>Boyut:</span>
+                        <select id="subtitleSize">
+                            <option value="small">Küçük</option>
+                            <option value="medium" selected>Orta</option>
+                            <option value="large">Büyük</option>
+                        </select>
+                    </label>
+                    <label>
+                        <span>Renk:</span>
+                        <select id="subtitleColor">
+                            <option value="white" selected>Beyaz</option>
+                            <option value="yellow">Sarı</option>
+                            <option value="green">Yeşil</option>
+                            <option value="blue">Mavi</option>
+                        </select>
+                    </label>
+                </div>
+            </div>
+            <div class="subtitle-actions">
+                <button class="btn btn-primary" id="applySubtitleSettings">Uygula</button>
+                <button class="btn btn-secondary" id="cancelSubtitleSettings">İptal</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // StreamMax - Temiz ve Çalışan JavaScript
+        console.log('StreamMax yükleniyor...');
+        
+        // Global değişkenler
+        let isInitialized = false;
+        
+        // Ana başlatma fonksiyonu
+        function initStreamMax() {
+            if (isInitialized) {
+                console.log('StreamMax zaten başlatılmış');
+                return;
+            }
+            
+            console.log('StreamMax başlatılıyor...');
+            console.log('DOM durumu:', document.readyState);
+            console.log('Header elementleri:', {
+                navLinks: document.querySelectorAll('.nav-link').length,
+                userMenu: document.getElementById('userMenu'),
+                searchInput: document.getElementById('searchInput'),
+                mobileMenuBtn: document.getElementById('mobileMenuBtn')
+            });
+            
+            isInitialized = true;
+            
+            // Tüm işlevleri başlat
+            setupNavigation();
+            setupProfileMenu();
+            setupSearch();
+            setupHeroButtons();
+            setupMovieCards();
+            setupMobileMenu();
+            setupNotifications();
+            
+            // Ana sayfa section'ını başlangıçta göster
+            const homeSection = document.getElementById('home-section');
+            if (homeSection) {
+                homeSection.style.display = 'block';
+                homeSection.classList.add('active');
+            }
+            
+            console.log('StreamMax başarıyla başlatıldı!');
+        }
+        
+        // Navigasyon işlevselliği
+        function setupNavigation() {
+            console.log('Navigasyon kurulumu başlatılıyor...');
+            
+            // Her nav link için ayrı event listener ekle
+            const navLinks = document.querySelectorAll('.nav-link');
+            console.log('Bulunan nav link sayısı:', navLinks.length);
+            
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    console.log('Nav link tıklandı:', this.textContent.trim());
+                    
+                    // Tüm nav linklerini bul ve aktif durumu güncelle
+                    const allNavLinks = document.querySelectorAll('.nav-link');
+                    allNavLinks.forEach(l => l.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    const section = this.getAttribute('data-section');
+                    console.log('Geçiş yapılacak section:', section);
+                    
+                    // Content section geçişi yap
+                    if (section) {
+                        switchContentSection(section);
+                        showNotification(`${this.textContent.trim()} bölümüne geçiliyor...`);
+                    } else {
+                        console.log('Data-section attribute bulunamadı!');
+                        showNotification('Geçiş yapılamadı - section bulunamadı');
+                    }
+                    
+                    // Mobile menüyü kapat
+                    const nav = document.querySelector('.nav');
+                    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+                    if (nav && mobileMenuBtn) {
+                        nav.classList.remove('active');
+                        mobileMenuBtn.classList.remove('active');
+                    }
+                });
+            });
+            
+            console.log('Navigasyon kurulumu tamamlandı');
+        }
+        
+        // Content section geçiş fonksiyonu
+        function switchContentSection(sectionName) {
+            console.log('Content section geçişi:', sectionName);
+            
+            // Tüm content section'ları gizle
+            const allSections = document.querySelectorAll('.content-section');
+            allSections.forEach(section => {
+                section.classList.remove('active');
+                section.style.display = 'none';
+            });
+            
+            // İlgili section'ı göster
+            const targetSection = document.getElementById(`${sectionName}-section`);
+            
+            if (targetSection) {
+                console.log('Target section bulundu:', targetSection.id);
+                targetSection.style.display = 'block';
+                targetSection.classList.add('active');
+                
+                // Smooth scroll to top
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            } else {
+                console.log('Target section bulunamadı:', `${sectionName}-section`);
+                // Eğer section bulunamazsa ana sayfayı göster
+                const homeSection = document.getElementById('home-section');
+                if (homeSection) {
+                    homeSection.style.display = 'block';
+                    homeSection.classList.add('active');
+                }
+            }
+        }
+        
+        // Profil menü işlevselliği
+        function setupProfileMenu() {
+            console.log('Profil menü kurulumu başlatılıyor...');
+            
+            const userMenu = document.getElementById('userMenu');
+            const userDropdown = document.getElementById('userDropdown');
+            
+            if (userMenu && userDropdown) {
+                console.log('Profil menü elementleri bulundu');
+                
+                // Dropdown'ı başlangıçta gizle
+                userDropdown.style.display = 'none';
+                userDropdown.classList.remove('show');
+                
+                userMenu.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    console.log('Profil menü tıklandı');
+                    
+                    if (userDropdown.style.display === 'none' || !userDropdown.classList.contains('show')) {
+                        userDropdown.style.display = 'block';
+                        userDropdown.classList.add('show');
+                        console.log('Profil dropdown açıldı');
+                    } else {
+                        userDropdown.style.display = 'none';
+                        userDropdown.classList.remove('show');
+                        console.log('Profil dropdown kapandı');
+                    }
+                });
+                
+                // Dropdown menü öğeleri - event delegation kullan
+                document.addEventListener('click', function(e) {
+                    if (e.target.closest('.dropdown-item')) {
+                        e.preventDefault();
+                        const item = e.target.closest('.dropdown-item');
+                        const action = item.getAttribute('href').substring(1);
+                        console.log('Profil menü öğesi tıklandı:', action);
+                        
+                        switch(action) {
+                            case 'login':
+                                showNotification('Giriş sayfasına yönlendiriliyor...');
+                                break;
+                            case 'profile':
+                                showNotification('Profil sayfasına yönlendiriliyor...');
+                                break;
+                            case 'settings':
+                                showNotification('Ayarlar sayfasına yönlendiriliyor...');
+                                break;
+                            case 'help':
+                                showNotification('Yardım sayfasına yönlendiriliyor...');
+                                break;
+                            case 'logout':
+                                showNotification('Çıkış yapılıyor...');
+                                break;
+                            default:
+                                showNotification(`${item.textContent.trim()} seçildi`);
+                        }
+                        
+                        // Dropdown'ı kapat
+                        userDropdown.style.display = 'none';
+                        userDropdown.classList.remove('show');
+                    }
+                });
+                
+                // Dışarı tıklayınca kapat
+                document.addEventListener('click', function(e) {
+                    if (!userMenu.contains(e.target) && !userDropdown.contains(e.target)) {
+                        userDropdown.style.display = 'none';
+                        userDropdown.classList.remove('show');
+                    }
+                });
+                
+                console.log('Profil menü kurulumu tamamlandı');
+            } else {
+                console.log('Profil menü elementleri bulunamadı');
+            }
+        }
+        
+        // Arama işlevselliği
+        function setupSearch() {
+            console.log('Arama kurulumu başlatılıyor...');
+            
+            const searchInput = document.getElementById('searchInput');
+            const searchHistoryContainer = document.getElementById('searchHistoryContainer');
+            
+            if (searchInput) {
+                console.log('Arama input bulundu');
+                
+                searchInput.addEventListener('focus', function() {
+                    console.log('Arama input focus oldu');
+                    if (searchHistoryContainer) {
+                        searchHistoryContainer.style.display = 'block';
+                    }
+                });
+                
+                searchInput.addEventListener('blur', function() {
+                    console.log('Arama input blur oldu');
+                    setTimeout(() => {
+                        if (searchHistoryContainer) {
+                            searchHistoryContainer.style.display = 'none';
+                        }
+                    }, 200);
+                });
+                
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        const query = this.value.trim();
+                        if (query) {
+                            console.log('Arama yapılıyor:', query);
+                            showNotification(`"${query}" için arama yapılıyor...`);
+                        }
+                    }
+                });
+                
+                console.log('Arama kurulumu tamamlandı');
+            } else {
+                console.log('Arama input bulunamadı');
+            }
+        }
+        
+        // Hero butonları
+        function setupHeroButtons() {
+            const heroPlayBtn = document.querySelector('.hero-play-btn');
+            const heroInfoBtn = document.querySelector('.hero-info-btn');
+            
+            if (heroPlayBtn) {
+                heroPlayBtn.addEventListener('click', function() {
+                    console.log('Hero oynat butonu tıklandı');
+                    showNotification('Video oynatılıyor...');
+                });
+            }
+            
+            if (heroInfoBtn) {
+                heroInfoBtn.addEventListener('click', function() {
+                    console.log('Hero bilgi butonu tıklandı');
+                    showNotification('Daha fazla bilgi gösteriliyor...');
+                });
+            }
+        }
+        
+        // Film kartları
+        function setupMovieCards() {
+            // Event delegation kullan
+            document.addEventListener('click', function(e) {
+                if (e.target.closest('.btn-play')) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    const movieCard = e.target.closest('.movie-card');
+                    const movieTitle = movieCard.querySelector('h3').textContent;
+                    console.log('Oynat butonu tıklandı:', movieTitle);
+                    showNotification(`${movieTitle} oynatılıyor...`);
+                }
+                
+                if (e.target.closest('.btn-add')) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    const movieCard = e.target.closest('.movie-card');
+                    const movieTitle = movieCard.querySelector('h3').textContent;
+                    const button = e.target.closest('.btn-add');
+                    
+                    console.log('Listeye ekle butonu tıklandı:', movieTitle);
+                    
+                    // Buton görünümünü değiştir
+                    button.innerHTML = '<i class="fas fa-check"></i>';
+                    button.style.backgroundColor = '#00d4ff';
+                    
+                    showNotification(`${movieTitle} listeye eklendi!`);
+                }
+                
+                if (e.target.closest('.btn-like')) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    const movieCard = e.target.closest('.movie-card');
+                    const movieTitle = movieCard.querySelector('h3').textContent;
+                    const button = e.target.closest('.btn-like');
+                    
+                    console.log('Beğen butonu tıklandı:', movieTitle);
+                    
+                    // Buton görünümünü değiştir
+                    button.style.color = '#ff4757';
+                    button.style.transform = 'scale(1.2)';
+                    
+                    setTimeout(() => {
+                        button.style.transform = 'scale(1)';
+                    }, 200);
+                    
+                    showNotification(`${movieTitle} beğenildi!`);
+                }
+            });
+        }
+        
+        // Mobile menu
+        function setupMobileMenu() {
+            console.log('Mobile menu kurulumu başlatılıyor...');
+            
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const nav = document.querySelector('.nav');
+            
+            if (mobileMenuBtn && nav) {
+                console.log('Mobile menu elementleri bulundu');
+                
+                mobileMenuBtn.addEventListener('click', function() {
+                    console.log('Mobile menu butonu tıklandı');
+                    nav.classList.toggle('active');
+                    this.classList.toggle('active');
+                });
+                
+                console.log('Mobile menu kurulumu tamamlandı');
+            } else {
+                console.log('Mobile menu elementleri bulunamadı');
+            }
+        }
+        
+        // Bildirim sistemi
+        function setupNotifications() {
+            // Bildirim container'ı oluştur
+            if (!document.querySelector('.notification-container')) {
+                const container = document.createElement('div');
+                container.className = 'notification-container';
+                container.style.cssText = `
+                    position: fixed;
+                    top: 20px;
+                    right: 20px;
+                    z-index: 10000;
+                    pointer-events: none;
+                `;
+                document.body.appendChild(container);
+            }
+        }
+        
+        // Bildirim göster
+        function showNotification(message) {
+            const container = document.querySelector('.notification-container');
+            if (!container) return;
+            
+            // Mevcut bildirimi kaldır
+            const existing = container.querySelector('.notification');
+            if (existing) {
+                existing.remove();
+            }
+            
+            // Yeni bildirim oluştur
+            const notification = document.createElement('div');
+            notification.className = 'notification';
+            notification.textContent = message;
+            notification.style.cssText = `
+                background: linear-gradient(135deg, #00d4ff 0%, #ff6b35 100%);
+                color: white;
+                padding: 15px 20px;
+                border-radius: 8px;
+                margin-bottom: 10px;
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+                transform: translateX(100%);
+                transition: transform 0.3s ease;
+                max-width: 300px;
+                word-wrap: break-word;
+                font-family: 'Inter', sans-serif;
+                font-size: 14px;
+                font-weight: 500;
+                pointer-events: auto;
+                cursor: pointer;
+            `;
+            
+            // Tıklama ile kapatma
+            notification.addEventListener('click', () => {
+                notification.style.transform = 'translateX(100%)';
+                setTimeout(() => {
+                    if (notification.parentNode) {
+                        notification.parentNode.removeChild(notification);
+                    }
+                }, 300);
+            });
+            
+            container.appendChild(notification);
+            
+            // Animasyon
+            setTimeout(() => {
+                notification.style.transform = 'translateX(0)';
+            }, 100);
+            
+            // 3 saniye sonra kaldır
+            setTimeout(() => {
+                notification.style.transform = 'translateX(100%)';
+                setTimeout(() => {
+                    if (notification.parentNode) {
+                        notification.parentNode.removeChild(notification);
+                    }
+                }, 300);
+            }, 3000);
+        }
+        
+        // Sayfa yüklendiğinde başlat
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initStreamMax);
+        } else {
+            initStreamMax();
+        }
+        
+        // Global fonksiyonlar
+        window.StreamMax = {
+            init: initStreamMax,
+            showNotification: showNotification
+        };
+    </script>
+    <script src="js/button-activator.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
