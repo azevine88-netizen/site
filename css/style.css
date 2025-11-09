@@ -25,14 +25,63 @@
     --gradient-primary: linear-gradient(135deg, #00d4ff, #ff6b35);
     --gradient-secondary: linear-gradient(135deg, #ff6b35, #ffd700);
     --gradient-dark: linear-gradient(135deg, #0a0a0a, #1a1a1a);
+    --bg-gradient: radial-gradient(ellipse at top, rgba(0, 212, 255, 0.15) 0%, rgba(255, 107, 53, 0.1) 50%, #000000 100%);
+    --bg-pattern: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0, 212, 255, 0.03) 2px,
+        rgba(0, 212, 255, 0.03) 4px
+    );
+}
+
+html {
+    background: var(--darker-bg);
+    min-height: 100%;
 }
 
 body {
     font-family: 'Inter', sans-serif;
-    background-color: var(--darker-bg);
+    background: var(--bg-gradient);
+    background-attachment: fixed;
+    position: relative;
     color: var(--text-primary);
     line-height: 1.6;
     overflow-x: hidden;
+    min-height: 100vh;
+}
+
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--bg-pattern);
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.5;
+}
+
+body::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        radial-gradient(circle at 20% 50%, rgba(0, 212, 255, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(255, 107, 53, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 40% 20%, rgba(255, 215, 0, 0.05) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+body > * {
+    position: relative;
+    z-index: 1;
 }
 
 .container {
@@ -1034,7 +1083,10 @@ body {
 .hero-content {
     text-align: center;
     max-width: 800px;
+    margin: 0 auto;
+    padding: 0 20px;
     z-index: 1;
+    width: 100%;
 }
 
 .hero-title {
@@ -1103,7 +1155,33 @@ body {
 /* Categories Section */
 .categories {
     padding: 80px 0;
-    background: var(--darker-bg);
+    background: linear-gradient(
+        180deg,
+        rgba(0, 0, 0, 0.3) 0%,
+        rgba(0, 212, 255, 0.05) 20%,
+        rgba(255, 107, 53, 0.05) 50%,
+        rgba(0, 0, 0, 0.3) 100%
+    );
+    position: relative;
+}
+
+.categories::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        radial-gradient(circle at 10% 20%, rgba(0, 212, 255, 0.08) 0%, transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(255, 107, 53, 0.08) 0%, transparent 40%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+.categories > * {
+    position: relative;
+    z-index: 1;
 }
 
 .category-section {

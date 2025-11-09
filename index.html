@@ -50,26 +50,66 @@
     
     <!-- Custom CSS for Content Sections -->
     <style>
-        .content-sections {
-            position: relative;
-            min-height: 100vh;
-        }
-        
         .content-section {
             display: none;
             padding: 80px 0;
-            background: linear-gradient(135deg, #0c0c0c 0%, #1a1a1a 100%);
+            background: linear-gradient(
+                180deg,
+                rgba(0, 0, 0, 0.4) 0%,
+                rgba(0, 212, 255, 0.05) 20%,
+                rgba(255, 107, 53, 0.05) 50%,
+                rgba(0, 0, 0, 0.4) 100%
+            );
+            position: relative;
             color: white;
             min-height: 100vh;
             opacity: 0;
-            transform: translateY(20px);
+            transform: scale(0.8);
             transition: all 0.5s ease-in-out;
+        }
+        
+        .content-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 15% 30%, rgba(0, 212, 255, 0.08) 0%, transparent 40%),
+                radial-gradient(circle at 85% 70%, rgba(255, 107, 53, 0.08) 0%, transparent 40%);
+            pointer-events: none;
+            z-index: 0;
+        }
+        
+        .content-section > * {
+            position: relative;
+            z-index: 1;
         }
         
         .content-section.active {
             display: block !important;
             opacity: 1;
-            transform: translateY(0);
+            transform: scale(1);
+        }
+        
+        /* Scale + Fade Exit Animation */
+        .content-section.exiting {
+            opacity: 0;
+            transform: scale(0.8);
+            transition: all 0.5s ease-in-out;
+        }
+        
+        /* Scale + Fade Enter Animation */
+        .content-section.entering {
+            opacity: 0;
+            transform: scale(1.1);
+            transition: all 0.5s ease-in-out;
+        }
+        
+        .content-section.entering.active {
+            opacity: 1;
+            transform: scale(1);
         }
         
         .content-section h2 {
@@ -147,6 +187,63 @@
         
         .mobile-menu-btn.active span:nth-child(3) {
             transform: rotate(-45deg) translate(7px, -6px);
+        }
+        
+        /* Hero and Categories Scale + Fade Animations */
+        .hero.exiting,
+        .categories.exiting {
+            opacity: 0;
+            transform: scale(0.8);
+            transition: all 0.5s ease-in-out;
+        }
+        
+        .hero.entering,
+        .categories.entering {
+            opacity: 0;
+            transform: scale(1.1);
+            transition: all 0.5s ease-in-out;
+        }
+        
+        .hero.entering.active,
+        .categories.entering.active {
+            opacity: 1;
+            transform: scale(1);
+        }
+        
+        /* Scroll-triggered Scale + Fade Animations */
+        .scroll-animate {
+            opacity: 0;
+            transform: scale(0.8);
+            transition: all 0.6s ease-out;
+        }
+        
+        .scroll-animate.visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+        
+        /* Category sections için scroll animasyonu - Scale + Fade */
+        .category-section {
+            opacity: 0;
+            transform: scale(0.9);
+            transition: all 0.4s ease-out;
+        }
+        
+        .category-section.scroll-visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+        
+        /* Movie cards için scroll animasyonu */
+        .movie-card {
+            opacity: 0;
+            transform: scale(0.9);
+            transition: all 0.5s ease-out;
+        }
+        
+        .movie-card.scroll-visible {
+            opacity: 1;
+            transform: scale(1);
         }
     </style>
     
@@ -347,65 +444,61 @@
             <div class="hero-overlay"></div>
         </div>
         <div class="hero-content">
-            <div class="container">
-                <h1 class="hero-title" data-translate="hero.title">Sınırsız Film, Dizi ve Çok Daha Fazlası</h1>
-                <p class="hero-subtitle" data-translate="hero.subtitle">İstediğiniz yerde izleyin. İstediğiniz zaman iptal edin.</p>
-                <div class="hero-actions">
-                    <button class="btn btn-primary hero-play-btn" data-action="play">
-                        <i class="fas fa-play"></i>
-                        <span data-translate="hero.play">Oynat</span>
-                    </button>
-                    <button class="btn btn-secondary hero-info-btn" data-action="info">
-                        <i class="fas fa-info-circle"></i>
-                        <span data-translate="hero.info">Daha Fazla Bilgi</span>
-                    </button>
-                </div>
+            <h1 class="hero-title" data-translate="hero.title">Sınırsız Film, Dizi ve Çok Daha Fazlası</h1>
+            <p class="hero-subtitle" data-translate="hero.subtitle">İstediğiniz yerde izleyin. İstediğiniz zaman iptal edin.</p>
+            <div class="hero-actions">
+                <button class="btn btn-primary hero-play-btn" data-action="play">
+                    <i class="fas fa-play"></i>
+                    <span data-translate="hero.play">Oynat</span>
+                </button>
+                <button class="btn btn-secondary hero-info-btn" data-action="info">
+                    <i class="fas fa-info-circle"></i>
+                    <span data-translate="hero.info">Daha Fazla Bilgi</span>
+                </button>
             </div>
         </div>
     </section>
 
     <!-- Content Sections -->
-    <div class="content-sections">
-        <!-- Ana Sayfa Section -->
-        <section class="content-section active" id="home-section">
-            <div class="container">
-                <h2>Ana Sayfa</h2>
-                <p>Hoş geldiniz! Burada önerilen içerikleri bulabilirsiniz.</p>
-            </div>
-        </section>
+    <!-- Ana Sayfa Section (gizli - hero ve categories zaten var) -->
+    <section class="content-section" id="home-section" style="display: none;">
+        <div class="container">
+            <h2>Ana Sayfa</h2>
+            <p>Hoş geldiniz! Burada önerilen içerikleri bulabilirsiniz.</p>
+        </div>
+    </section>
 
-        <!-- Diziler Section -->
-        <section class="content-section" id="series-section">
-            <div class="container">
-                <h2>Diziler</h2>
-                <p>En popüler dizileri keşfedin.</p>
-            </div>
-        </section>
+    <!-- Diziler Section -->
+    <section class="content-section" id="series-section">
+        <div class="container">
+            <h2>Diziler</h2>
+            <p>En popüler dizileri keşfedin.</p>
+        </div>
+    </section>
 
-        <!-- Filmler Section -->
-        <section class="content-section" id="movies-section">
-            <div class="container">
-                <h2>Filmler</h2>
-                <p>En yeni filmleri izleyin.</p>
-            </div>
-        </section>
+    <!-- Filmler Section -->
+    <section class="content-section" id="movies-section">
+        <div class="container">
+            <h2>Filmler</h2>
+            <p>En yeni filmleri izleyin.</p>
+        </div>
+    </section>
 
-        <!-- Yeni & Popüler Section -->
-        <section class="content-section" id="trending-section">
-            <div class="container">
-                <h2>Yeni & Popüler</h2>
-                <p>Trend olan içerikleri keşfedin.</p>
-            </div>
-        </section>
+    <!-- Yeni & Popüler Section -->
+    <section class="content-section" id="trending-section">
+        <div class="container">
+            <h2>Yeni & Popüler</h2>
+            <p>Trend olan içerikleri keşfedin.</p>
+        </div>
+    </section>
 
-        <!-- Listem Section -->
-        <section class="content-section" id="mylist-section">
-            <div class="container">
-                <h2>Listem</h2>
-                <p>Kaydettiğiniz içerikleri burada bulabilirsiniz.</p>
-            </div>
-        </section>
-    </div>
+    <!-- Listem Section -->
+    <section class="content-section" id="mylist-section">
+        <div class="container">
+            <h2>Listem</h2>
+            <p>Kaydettiğiniz içerikleri burada bulabilirsiniz.</p>
+        </div>
+    </section>
 
     <!-- Categories Section -->
     <section class="categories">
@@ -826,22 +919,226 @@
             isInitialized = true;
             
             // Tüm işlevleri başlat
-            setupNavigation();
+            // setupNavigation(); // button-activator.js tarafından yönetiliyor
             setupProfileMenu();
             setupSearch();
             setupHeroButtons();
             setupMovieCards();
             setupMobileMenu();
             setupNotifications();
+            setupScrollAnimations();
             
-            // Ana sayfa section'ını başlangıçta göster
-            const homeSection = document.getElementById('home-section');
-            if (homeSection) {
-                homeSection.style.display = 'block';
-                homeSection.classList.add('active');
+            // Ana sayfa için hero ve categories zaten görünür durumda
+            // home-section'ı göstermeye gerek yok
+            
+            // Sayfa ilk yüklendiğinde ana sayfayı göster
+            const heroSection = document.querySelector('.hero');
+            const categoriesSection = document.querySelector('.categories');
+            if (heroSection) {
+                heroSection.style.display = 'flex';
+            }
+            if (categoriesSection) {
+                categoriesSection.style.display = 'block';
             }
             
             console.log('StreamMax başarıyla başlatıldı!');
+        }
+        
+        // Scroll animasyonları - Scale + Fade efekti ve otomatik kategori geçişi
+        function setupScrollAnimations() {
+            console.log('Scroll animasyonları kuruluyor...');
+            
+            let scrollTimeout;
+            let scrollSnapTimeout;
+            let lastScrollTop = 0;
+            
+            // Scroll event listener - otomatik kategori geçişi ve snap efekti için
+            window.addEventListener('scroll', () => {
+                if (window.isManualNavigation) return; // Manuel geçiş sırasında otomatik geçişi engelle
+                
+                const currentScrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                const scrollDirection = currentScrollTop > lastScrollTop ? 'down' : 'up';
+                lastScrollTop = currentScrollTop;
+                
+                // Kategori geçişi kontrolü
+                clearTimeout(scrollTimeout);
+                scrollTimeout = setTimeout(() => {
+                    handleScrollCategoryTransition(scrollDirection);
+                }, 150); // Debounce - scroll bittikten 150ms sonra kontrol et
+                
+                // Snap efekti - scroll durduğunda en yakın kategoriye snap yap (daha hızlı)
+                clearTimeout(scrollSnapTimeout);
+                scrollSnapTimeout = setTimeout(() => {
+                    snapToNearestCategory();
+                }, 100); // Scroll durduktan 100ms sonra snap yap (daha hızlı)
+            }, { passive: true });
+            
+            // Intersection Observer oluştur - Scale + Fade animasyonları için
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px 0px -10% 0px', // Element ekranın alt kısmına geldiğinde tetikle
+                threshold: [0, 0.1, 0.2, 0.3, 0.4, 0.5] // Daha hassas tespit için
+            };
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        // Element görünür hale geldiğinde Scale + Fade animasyonu uygula
+                        entry.target.classList.add('scroll-visible');
+                    }
+                });
+            }, observerOptions);
+            
+            // Category sections için animasyon ve otomatik geçiş
+            const categorySections = document.querySelectorAll('.category-section');
+            categorySections.forEach((section, index) => {
+                // Her section'a farklı gecikme ekle (stagger effect)
+                section.style.transitionDelay = `${index * 0.1}s`;
+                observer.observe(section);
+            });
+            
+            // Movie cards için animasyon
+            const movieCards = document.querySelectorAll('.movie-card');
+            movieCards.forEach((card, index) => {
+                // Her card'a farklı gecikme ekle (stagger effect)
+                card.style.transitionDelay = `${(index % 5) * 0.1}s`;
+                observer.observe(card);
+            });
+            
+            // Content sections için animasyon
+            const contentSections = document.querySelectorAll('.content-section');
+            contentSections.forEach(section => {
+                observer.observe(section);
+            });
+            
+            // Otomatik kategori geçişi fonksiyonu
+            let lastActiveCategory = null;
+            function handleScrollCategoryTransition(scrollDirection = 'down') {
+                // Manuel navigasyon sırasında çalışma
+                if (window.isManualNavigation) {
+                    return;
+                }
+                
+                // Sadece ana sayfada çalışsın
+                const heroSection = document.querySelector('.hero');
+                if (!heroSection || heroSection.style.display === 'none') {
+                    return; // Ana sayfa değilse çalışma
+                }
+                
+                const scrollPosition = window.scrollY;
+                const viewportHeight = window.innerHeight;
+                const categorySections = document.querySelectorAll('.category-section');
+                
+                let activeCategory = null;
+                let activeSectionElement = null;
+                let maxVisibility = 0;
+                
+                // Hangi kategori en çok görünür?
+                categorySections.forEach(section => {
+                    const rect = section.getBoundingClientRect();
+                    const sectionTop = rect.top + scrollPosition;
+                    const sectionBottom = sectionTop + rect.height;
+                    
+                    // Kategori görünür alandaysa
+                    if (rect.top < viewportHeight && rect.bottom > 0) {
+                        // Kategorinin ne kadarının görünür olduğunu hesapla
+                        const visibleTop = Math.max(0, -rect.top);
+                        const visibleBottom = Math.min(rect.height, viewportHeight - rect.top);
+                        const visibleHeight = Math.max(0, visibleBottom - visibleTop);
+                        const visibilityRatio = visibleHeight / rect.height;
+                        
+                        // En çok görünür olan kategoriyi seç
+                        if (visibilityRatio > maxVisibility) {
+                            maxVisibility = visibilityRatio;
+                            activeCategory = section.getAttribute('data-category');
+                            activeSectionElement = section;
+                        }
+                    }
+                });
+                
+                // Eğer bir kategori bulunduysa ve değiştiyse
+                if (activeCategory && activeCategory !== lastActiveCategory && activeSectionElement) {
+                    lastActiveCategory = activeCategory;
+                    
+                    // Navigasyon butonlarını güncelle
+                    const navLinks = document.querySelectorAll('.nav-link');
+                    navLinks.forEach(link => {
+                        const section = link.getAttribute('data-section');
+                        if (section === 'home') {
+                            link.classList.add('active');
+                        } else {
+                            link.classList.remove('active');
+                        }
+                    });
+                    
+                    console.log('Aktif kategori:', activeCategory);
+                }
+            }
+            
+            // Scroll snap efekti - scroll durduğunda en yakın kategoriye snap yap
+            function snapToNearestCategory() {
+                if (window.isManualNavigation) return;
+                
+                const heroSection = document.querySelector('.hero');
+                if (!heroSection || heroSection.style.display === 'none') {
+                    return;
+                }
+                
+                const scrollPosition = window.scrollY;
+                const viewportHeight = window.innerHeight;
+                const categorySections = document.querySelectorAll('.category-section');
+                
+                let nearestCategory = null;
+                let minDistance = Infinity;
+                let nearestSectionElement = null;
+                
+                // En yakın kategoriyi bul
+                categorySections.forEach(section => {
+                    const rect = section.getBoundingClientRect();
+                    const sectionTop = rect.top + scrollPosition;
+                    const sectionCenter = sectionTop + rect.height / 2;
+                    const viewportCenter = scrollPosition + viewportHeight / 2;
+                    const distance = Math.abs(viewportCenter - sectionCenter);
+                    
+                    // Kategori görünür alandaysa
+                    if (rect.top < viewportHeight && rect.bottom > 0 && distance < minDistance) {
+                        minDistance = distance;
+                        nearestCategory = section.getAttribute('data-category');
+                        nearestSectionElement = section;
+                    }
+                });
+                
+                // En yakın kategoriye snap yap
+                if (nearestSectionElement && minDistance > 100) { // Sadece 100px'den fazla uzaktaysa snap yap
+                    // Snap sırasında manuel navigasyonu geçici olarak engelle
+                    window.isManualNavigation = true;
+                    
+                    const targetPosition = nearestSectionElement.getBoundingClientRect().top + window.scrollY - 120;
+                    
+                    // Daha hızlı scroll için CSS transition kullan
+                    document.documentElement.style.scrollBehavior = 'smooth';
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
+                    });
+                    
+                    // Snap tamamlandıktan sonra manuel navigasyonu tekrar aktif et
+                    setTimeout(() => {
+                        window.isManualNavigation = false;
+                    }, 400); // Daha hızlı - 400ms (önceden 800ms)
+                    
+                    console.log('Kategoriye snap yapıldı:', nearestCategory);
+                }
+            }
+            
+            // Global değişken - manuel geçiş sırasında otomatik geçişi engellemek için
+            window.isManualNavigation = false;
+            
+            console.log('Scroll animasyonları kuruldu:', {
+                categorySections: categorySections.length,
+                movieCards: movieCards.length,
+                contentSections: contentSections.length
+            });
         }
         
         // Navigasyon işlevselliği
@@ -867,6 +1164,12 @@
                     const section = this.getAttribute('data-section');
                     console.log('Geçiş yapılacak section:', section);
                     
+                    // Manuel navigasyon işareti
+                    window.isManualNavigation = true;
+                    setTimeout(() => {
+                        window.isManualNavigation = false;
+                    }, 1000); // 1 saniye sonra otomatik geçişi tekrar aktif et
+                    
                     // Content section geçişi yap
                     if (section) {
                         switchContentSection(section);
@@ -889,40 +1192,123 @@
             console.log('Navigasyon kurulumu tamamlandı');
         }
         
-        // Content section geçiş fonksiyonu
+        // Content section geçiş fonksiyonu - Scale + Fade efekti ile
         function switchContentSection(sectionName) {
             console.log('Content section geçişi:', sectionName);
             
-            // Tüm content section'ları gizle
-            const allSections = document.querySelectorAll('.content-section');
-            allSections.forEach(section => {
-                section.classList.remove('active');
-                section.style.display = 'none';
-            });
-            
-            // İlgili section'ı göster
-            const targetSection = document.getElementById(`${sectionName}-section`);
-            
-            if (targetSection) {
-                console.log('Target section bulundu:', targetSection.id);
-                targetSection.style.display = 'block';
-                targetSection.classList.add('active');
-                
-                // Smooth scroll to top
-                window.scrollTo({
-                    top: 0,
-                    behavior: 'smooth'
-                });
-            } else {
-                console.log('Target section bulunamadı:', `${sectionName}-section`);
-                // Eğer section bulunamazsa ana sayfayı göster
-                const homeSection = document.getElementById('home-section');
-                if (homeSection) {
-                    homeSection.style.display = 'block';
-                    homeSection.classList.add('active');
+            // Scroll to top fonksiyonu
+            function scrollToTop() {
+                if (window.scrollTo) {
+                    window.scrollTo(0, 0);
+                }
+                if (document.documentElement) {
+                    document.documentElement.scrollTop = 0;
+                }
+                if (document.body) {
+                    document.body.scrollTop = 0;
+                }
+                if (document.scrollingElement) {
+                    document.scrollingElement.scrollTop = 0;
                 }
             }
+            
+            // Hemen scroll yap
+            scrollToTop();
+            
+            // Hero section - Scale + Fade efekti
+            const heroSection = document.querySelector('.hero');
+            if (heroSection) {
+                if (sectionName === 'home') {
+                    // Ana sayfaya dönüş - hero'yu göster
+                    heroSection.classList.remove('exiting');
+                    heroSection.classList.add('entering');
+                    heroSection.style.display = 'flex';
+                    setTimeout(() => {
+                        heroSection.classList.add('active');
+                    }, 10);
+                } else {
+                    // Ana sayfadan çıkış - hero'yu gizle
+                    heroSection.classList.remove('entering', 'active');
+                    heroSection.classList.add('exiting');
+                    setTimeout(() => {
+                        heroSection.style.display = 'none';
+                        heroSection.classList.remove('exiting');
+                    }, 500);
+                }
+            }
+            
+            // Categories section - Scale + Fade efekti
+            const categoriesSection = document.querySelector('.categories');
+            if (categoriesSection) {
+                if (sectionName === 'home') {
+                    // Ana sayfaya dönüş - categories'i göster
+                    categoriesSection.classList.remove('exiting');
+                    categoriesSection.classList.add('entering');
+                    categoriesSection.style.display = 'block';
+                    setTimeout(() => {
+                        categoriesSection.classList.add('active');
+                    }, 10);
+                } else {
+                    // Ana sayfadan çıkış - categories'i gizle
+                    categoriesSection.classList.remove('entering', 'active');
+                    categoriesSection.classList.add('exiting');
+                    setTimeout(() => {
+                        categoriesSection.style.display = 'none';
+                        categoriesSection.classList.remove('exiting');
+                    }, 500);
+                }
+            }
+            
+            // Tüm content section'ları Scale + Fade ile gizle
+            const allSections = document.querySelectorAll('.content-section');
+            allSections.forEach(section => {
+                if (section.classList.contains('active')) {
+                    // Mevcut aktif section'ı Scale + Fade ile gizle
+                    section.classList.remove('active', 'entering');
+                    section.classList.add('exiting');
+                    setTimeout(() => {
+                        section.style.display = 'none';
+                        section.classList.remove('exiting');
+                    }, 500);
+                } else {
+                    section.classList.remove('active', 'entering', 'exiting');
+                    section.style.display = 'none';
+                }
+            });
+            
+            // İlgili section'ı Scale + Fade ile göster
+            if (sectionName === 'home') {
+                // Ana sayfa için hero ve categories zaten gösterildi
+                console.log('Ana sayfa gösteriliyor - hero ve categories görünür');
+            } else {
+                const targetSection = document.getElementById(`${sectionName}-section`);
+                if (targetSection) {
+                    console.log('Target section bulundu:', targetSection.id);
+                    // Yeni section'ı Scale + Fade ile göster
+                    targetSection.classList.remove('exiting');
+                    targetSection.classList.add('entering');
+                    targetSection.style.display = 'block';
+                    setTimeout(() => {
+                        targetSection.classList.add('active');
+                    }, 10);
+                } else {
+                    console.log('Target section bulunamadı:', `${sectionName}-section`);
+                }
+            }
+            
+            // Smooth scroll için kısa bir gecikme
+            setTimeout(() => {
+                if (window.scrollTo) {
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                }
+            }, 100);
         }
+        
+        // Global olarak erişilebilir yap
+        window.switchContentSection = switchContentSection;
         
         // Profil menü işlevselliği
         function setupProfileMenu() {

@@ -34,18 +34,63 @@ class StreamMaxButtonActivator {
         this.activateHeroButtons();
         this.activateMovieCards();
         this.activateSearchButton();
-        this.activateUserMenu();
+        // activateUserMenu'yu streamMaxApp hazır olduktan sonra çağır
+        this.activateUserMenuWithDelay();
         this.activateFooterLinks();
+    }
+    
+    activateUserMenuWithDelay() {
+        // streamMaxApp hazır olana kadar bekle
+        if (window.streamMaxApp) {
+            console.log('streamMaxApp hazır, activateUserMenu çağrılıyor');
+            this.activateUserMenu();
+        } else {
+            // En fazla 5 saniye bekle
+            let attempts = 0;
+            const maxAttempts = 50; // 50 * 100ms = 5 saniye
+            const interval = setInterval(() => {
+                attempts++;
+                if (window.streamMaxApp) {
+                    clearInterval(interval);
+                    console.log('streamMaxApp hazır, activateUserMenu çağrılıyor');
+                    this.activateUserMenu();
+                } else if (attempts >= maxAttempts) {
+                    clearInterval(interval);
+                    console.warn('streamMaxApp 5 saniye içinde hazır olmadı, activateUserMenu yine de çağrılıyor');
+                    this.activateUserMenu();
+                }
+            }, 100);
+        }
     }
 
     activateNavigationButtons() {
-        const navLinks = document.querySelectorAll('.nav a, .header__menu a');
-        navLinks.forEach(link => {
+        // Sadece .nav-link class'ına sahip link'leri seç (header'daki navigasyon butonları)
+        const navLinks = document.querySelectorAll('.nav-link');
+        console.log(`button-activator.js: ${navLinks.length} adet navigasyon linki bulundu`);
+        
+        // Önce tüm mevcut event listener'ları temizlemek için data attribute kullan
+        navLinks.forEach((link, index) => {
+            // Eğer zaten işaretlenmişse atla
+            if (link.dataset.buttonActivatorHandled === 'true') {
+                console.log(`button-activator.js: Link ${index + 1} zaten işlenmiş, atlanıyor`);
+                return;
+            }
+            
+            // İşaretle
+            link.dataset.buttonActivatorHandled = 'true';
+            
+            // Yeni event listener ekle (capture phase'de çalıştır ki diğer listener'lardan önce çalışsın)
             link.addEventListener('click', (e) => {
                 e.preventDefault();
+                e.stopPropagation();
+                console.log(`button-activator.js: Nav link tıklandı: ${link.textContent.trim()}, section: ${link.getAttribute('data-section')}`);
                 this.handleNavigationClick(link);
-            });
+            }, true); // capture phase
+            
+            console.log(`button-activator.js: Link ${index + 1} (${link.textContent.trim()}) için event listener eklendi`);
         });
+        
+        console.log('button-activator.js: Navigasyon butonları aktifleştirildi!');
     }
 
     activateHeroButtons() {
@@ -96,11 +141,183 @@ class StreamMaxButtonActivator {
 
     activateUserMenu() {
         const userMenu = document.querySelector('.user-menu');
-        if (userMenu) {
+        const userDropdown = document.getElementById('userDropdown');
+        
+        if (userMenu && userDropdown) {
+            // Duplicate listener kontrolü
+            if (userMenu.dataset.buttonActivatorHandled === 'true') {
+                return;
+            }
+            userMenu.dataset.buttonActivatorHandled = 'true';
+            
+            // Dropdown'ı başlangıçta gizle
+            userDropdown.style.display = 'none';
+            userDropdown.classList.remove('show');
+            
+            // Profil menü butonuna click event
             userMenu.addEventListener('click', (e) => {
-                e.preventDefault();
+                // Eğer dropdown içindeki bir öğeye tıklandıysa, bu event'i işleme
+                if (userDropdown.contains(e.target)) {
+                    return;
+                }
+                e.stopPropagation();
                 this.toggleUserMenu();
-            });
+            }, true); // capture phase
+            
+            // Dropdown menü öğelerine direkt event listener ekle
+            const setupDropdownItems = () => {
+                const dropdownItems = userDropdown.querySelectorAll('.dropdown-item');
+                console.log(`activateUserMenu: ${dropdownItems.length} adet dropdown item bulundu`);
+                
+                dropdownItems.forEach((item, index) => {
+                    // Duplicate listener kontrolü
+                    if (item.dataset.buttonActivatorHandled === 'true') {
+                        console.log(`Dropdown item ${index + 1} zaten işlenmiş, atlanıyor`);
+                        return;
+                    }
+                    item.dataset.buttonActivatorHandled = 'true';
+                    
+                    const href = item.getAttribute('href');
+                    const action = href ? href.substring(1) : '';
+                    console.log(`Dropdown item ${index + 1} için event listener ekleniyor: ${action}`);
+                    
+                    item.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        
+                        console.log('Dropdown item tıklandı:', action, item);
+                        
+                        // Dropdown'ı kapat
+                        userDropdown.style.display = 'none';
+                        userDropdown.classList.remove('show');
+                        
+                        // StreamMax instance'ını bekle veya direkt çağır
+                        const executeAction = () => {
+                            if (!window.streamMaxApp) {
+                                console.error('window.streamMaxApp bulunamadı!');
+                                return;
+                            }
+                            
+                            console.log('executeAction çağrılıyor, action:', action);
+                            
+                            // Dropdown item işlemleri - Gerçek işlevleri çağır
+                            if (action === 'login') {
+                                if (typeof window.streamMaxApp.showLoginModal === 'function') {
+                                    console.log('showLoginModal çağrılıyor');
+                                    try {
+                                        window.streamMaxApp.showLoginModal();
+                                    } catch (error) {
+                                        console.error('showLoginModal hatası:', error);
+                                    }
+                                } else {
+                                    console.error('showLoginModal metodu bulunamadı', {
+                                        availableMethods: Object.keys(window.streamMaxApp).filter(key => typeof window.streamMaxApp[key] === 'function')
+                                    });
+                                }
+                            } else if (action === 'profile') {
+                                if (typeof window.streamMaxApp.showProfileModal === 'function') {
+                                    console.log('showProfileModal çağrılıyor');
+                                    try {
+                                        window.streamMaxApp.showProfileModal();
+                                    } catch (error) {
+                                        console.error('showProfileModal hatası:', error);
+                                    }
+                                } else {
+                                    console.error('showProfileModal metodu bulunamadı');
+                                }
+                            } else if (action === 'settings') {
+                                if (typeof window.streamMaxApp.showSettingsModal === 'function') {
+                                    console.log('showSettingsModal çağrılıyor');
+                                    try {
+                                        window.streamMaxApp.showSettingsModal();
+                                    } catch (error) {
+                                        console.error('showSettingsModal hatası:', error);
+                                    }
+                                } else {
+                                    console.error('showSettingsModal metodu bulunamadı');
+                                }
+                            } else if (action === 'help') {
+                                if (typeof window.streamMaxApp.showHelpModal === 'function') {
+                                    console.log('showHelpModal çağrılıyor');
+                                    try {
+                                        window.streamMaxApp.showHelpModal();
+                                    } catch (error) {
+                                        console.error('showHelpModal hatası:', error);
+                                    }
+                                } else {
+                                    console.error('showHelpModal metodu bulunamadı');
+                                }
+                            } else if (action === 'logout') {
+                                if (typeof window.streamMaxApp.handleLogoutClick === 'function') {
+                                    console.log('handleLogoutClick çağrılıyor');
+                                    try {
+                                        window.streamMaxApp.handleLogoutClick();
+                                    } catch (error) {
+                                        console.error('handleLogoutClick hatası:', error);
+                                    }
+                                } else {
+                                    console.error('handleLogoutClick metodu bulunamadı');
+                                }
+                            } else {
+                                console.warn('Bilinmeyen action:', action);
+                            }
+                        };
+                        
+                        // Eğer streamMaxApp henüz hazır değilse, hazır olana kadar bekle
+                        if (!window.streamMaxApp) {
+                            console.log('streamMaxApp henüz hazır değil, bekleniyor...');
+                            let attempts = 0;
+                            const maxAttempts = 100; // 100 * 100ms = 10 saniye
+                            const checkInterval = setInterval(() => {
+                                attempts++;
+                                if (window.streamMaxApp) {
+                                    clearInterval(checkInterval);
+                                    console.log('streamMaxApp hazır oldu, işlem yapılıyor');
+                                    executeAction();
+                                } else if (attempts >= maxAttempts) {
+                                    clearInterval(checkInterval);
+                                    console.error('streamMaxApp 10 saniye içinde hazır olmadı, işlem yapılamıyor');
+                                }
+                            }, 100);
+                        } else {
+                            executeAction();
+                        }
+                    }, true); // capture phase
+                    
+                    console.log(`Dropdown item ${index + 1} (${action}) için event listener eklendi`);
+                });
+            };
+            
+            // Dropdown item'ları hemen kur
+            setupDropdownItems();
+            
+            // Eğer dropdown item'lar henüz yoksa, MutationObserver ile bekle
+            if (userDropdown.querySelectorAll('.dropdown-item').length === 0) {
+                console.log('Dropdown item\'lar henüz yok, MutationObserver ile bekleniyor...');
+                const observer = new MutationObserver(() => {
+                    if (userDropdown.querySelectorAll('.dropdown-item').length > 0) {
+                        observer.disconnect();
+                        console.log('Dropdown item\'lar bulundu, event listener\'lar ekleniyor...');
+                        setupDropdownItems();
+                    }
+                });
+                observer.observe(userDropdown, { childList: true, subtree: true });
+            }
+            
+            // Dışarı tıklayınca kapat (sadece bir kez ekle)
+            if (!document.userDropdownCloseHandlerAdded) {
+                document.addEventListener('click', (e) => {
+                    const currentUserMenu = document.querySelector('.user-menu');
+                    const currentUserDropdown = document.getElementById('userDropdown');
+                    if (currentUserMenu && currentUserDropdown) {
+                        if (!currentUserMenu.contains(e.target) && !currentUserDropdown.contains(e.target)) {
+                            currentUserDropdown.style.display = 'none';
+                            currentUserDropdown.classList.remove('show');
+                        }
+                    }
+                });
+                document.userDropdownCloseHandlerAdded = true;
+            }
         }
     }
 
@@ -116,15 +333,154 @@ class StreamMaxButtonActivator {
 
     handleNavigationClick(link) {
         const text = link.textContent.trim();
-        const href = link.getAttribute('href');
+        const section = link.getAttribute('data-section');
         
-        if (href && href !== '#') {
-            this.showNotification(`"${text}" sayfasına yönlendiriliyorsunuz...`);
-            // Gerçek sayfa yönlendirmesi burada yapılabilir
-            // window.location.href = href;
+        // data-section attribute'unu kontrol et
+        if (section) {
+            // Manuel navigasyon işareti
+            window.isManualNavigation = true;
+            setTimeout(() => {
+                window.isManualNavigation = false;
+            }, 1000); // 1 saniye sonra otomatik geçişi tekrar aktif et
+            
+            // Tüm nav linklerini bul ve aktif durumu güncelle
+            const allNavLinks = document.querySelectorAll('.nav-link');
+            allNavLinks.forEach(l => l.classList.remove('active'));
+            link.classList.add('active');
+            
+            // Global switchContentSection fonksiyonunu çağır (HTML'deki inline JavaScript'te tanımlı)
+            if (typeof window.switchContentSection === 'function') {
+                window.switchContentSection(section);
+            } else {
+                // Eğer global fonksiyon yoksa, manuel olarak section geçişi yap
+                this.switchContentSection(section);
+            }
+            
+            this.showNotification(`${text} bölümüne geçiliyor...`);
+            
+            // Mobile menüyü kapat
+            const nav = document.querySelector('.nav');
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            if (nav && mobileMenuBtn) {
+                nav.classList.remove('active');
+                mobileMenuBtn.classList.remove('active');
+            }
+        } else {
+            const href = link.getAttribute('href');
+            if (href && href !== '#' && href !== 'javascript:void(0)') {
+                this.showNotification(`"${text}" sayfasına yönlendiriliyorsunuz...`);
         } else {
             this.showNotification(`"${text}" menü öğesi tıklandı!`);
+            }
         }
+    }
+    
+    // Content section geçiş fonksiyonu - Scale + Fade efekti ile
+    switchContentSection(sectionName) {
+        console.log('Content section geçişi:', sectionName);
+        
+        // Scroll to top fonksiyonu
+        const scrollToTop = () => {
+            if (window.scrollTo) {
+                window.scrollTo(0, 0);
+            }
+            if (document.documentElement) {
+                document.documentElement.scrollTop = 0;
+            }
+            if (document.body) {
+                document.body.scrollTop = 0;
+            }
+            if (document.scrollingElement) {
+                document.scrollingElement.scrollTop = 0;
+            }
+        };
+        
+        // Hemen scroll yap
+        scrollToTop();
+        
+        // Hero section - Scale + Fade efekti
+        const heroSection = document.querySelector('.hero');
+        if (heroSection) {
+            if (sectionName === 'home') {
+                heroSection.classList.remove('exiting');
+                heroSection.classList.add('entering');
+                heroSection.style.display = 'flex';
+                setTimeout(() => {
+                    heroSection.classList.add('active');
+                }, 10);
+            } else {
+                heroSection.classList.remove('entering', 'active');
+                heroSection.classList.add('exiting');
+                setTimeout(() => {
+                    heroSection.style.display = 'none';
+                    heroSection.classList.remove('exiting');
+                }, 500);
+            }
+        }
+        
+        // Categories section - Scale + Fade efekti
+        const categoriesSection = document.querySelector('.categories');
+        if (categoriesSection) {
+            if (sectionName === 'home') {
+                categoriesSection.classList.remove('exiting');
+                categoriesSection.classList.add('entering');
+                categoriesSection.style.display = 'block';
+                setTimeout(() => {
+                    categoriesSection.classList.add('active');
+                }, 10);
+            } else {
+                categoriesSection.classList.remove('entering', 'active');
+                categoriesSection.classList.add('exiting');
+                setTimeout(() => {
+                    categoriesSection.style.display = 'none';
+                    categoriesSection.classList.remove('exiting');
+                }, 500);
+            }
+        }
+        
+        // Tüm content section'ları Scale + Fade ile gizle
+        const allSections = document.querySelectorAll('.content-section');
+        allSections.forEach(section => {
+            if (section.classList.contains('active')) {
+                section.classList.remove('active', 'entering');
+                section.classList.add('exiting');
+                setTimeout(() => {
+                    section.style.display = 'none';
+                    section.classList.remove('exiting');
+                }, 500);
+            } else {
+                section.classList.remove('active', 'entering', 'exiting');
+                section.style.display = 'none';
+            }
+        });
+        
+        // İlgili section'ı Scale + Fade ile göster
+        if (sectionName === 'home') {
+            console.log('Ana sayfa gösteriliyor - hero ve categories görünür');
+        } else {
+            const targetSection = document.getElementById(`${sectionName}-section`);
+            if (targetSection) {
+                console.log('Target section bulundu:', targetSection.id);
+                targetSection.classList.remove('exiting');
+                targetSection.classList.add('entering');
+                targetSection.style.display = 'block';
+                setTimeout(() => {
+                    targetSection.classList.add('active');
+                }, 10);
+            } else {
+                console.log('Target section bulunamadı:', `${sectionName}-section`);
+            }
+        }
+        
+        // Smooth scroll için kısa bir gecikme
+        setTimeout(() => {
+            if (window.scrollTo) {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            }
+        }, 100);
     }
 
     handleHeroButtonClick(button) {
@@ -207,8 +563,16 @@ class StreamMaxButtonActivator {
     }
 
     toggleUserMenu() {
-        this.showNotification('Kullanıcı menüsü açılıyor...');
-        this.showModal('Kullanıcı Menüsü', 'Profil ayarları ve çıkış seçenekleri açılıyor.');
+        const userDropdown = document.getElementById('userDropdown');
+        if (!userDropdown) return;
+        
+        if (userDropdown.style.display === 'none' || !userDropdown.classList.contains('show')) {
+            userDropdown.style.display = 'block';
+            userDropdown.classList.add('show');
+        } else {
+            userDropdown.style.display = 'none';
+            userDropdown.classList.remove('show');
+        }
     }
 
     handleFooterLinkClick(link) {

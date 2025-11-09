@@ -94,15 +94,12 @@ class StreamMax {
 
     // Eksik fonksiyonları ekle
     setupNavigationLinks() {
+        // button-activator.js zaten navigasyonu yönetiyor, bu yüzden burada sadece kontrol ediyoruz
         const navLinks = document.querySelectorAll('.nav-link');
-        navLinks.forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-                const section = link.getAttribute('data-section');
-                console.log(`Navigation link clicked: ${section}`);
-                this.handleNavigation(e);
-            });
-        });
+        if (navLinks.length > 0) {
+            console.log(`${navLinks.length} adet navigasyon linki bulundu, button-activator.js tarafından yönetiliyor`);
+        }
+        // Event listener ekleme işlemi button-activator.js tarafından yapılıyor
     }
 
     setupUserDropdownItems() {
@@ -889,7 +886,7 @@ class StreamMax {
         e.preventDefault();
         e.stopPropagation();
         
-        const link = e.target;
+        const link = e.target.closest('.nav-link') || e.target;
         const section = link.getAttribute('data-section');
         const text = link.textContent.trim();
         
@@ -901,14 +898,138 @@ class StreamMax {
             link.style.transform = 'scale(1)';
         }, 150);
         
-        this.showNotification(`"${text}" sayfasına geçiliyor...`, 'info');
+        // Tüm nav linklerini bul ve aktif durumu güncelle
+        const allNavLinks = document.querySelectorAll('.nav-link');
+        allNavLinks.forEach(l => l.classList.remove('active'));
+        link.classList.add('active');
         
-        // Navigate to page
-        if (section && section !== 'home') {
-            this.navigateToPage(section);
-        } else if (section === 'home') {
-            this.navigateToPage('home');
+        // switchContentSection fonksiyonunu kullan (HTML'deki inline JavaScript'te tanımlı)
+        if (section && typeof window.switchContentSection === 'function') {
+            window.switchContentSection(section);
+            this.showNotification(`${text} bölümüne geçiliyor...`, 'info');
+        } else if (section) {
+            // Yedek: manuel section geçişi
+            this.switchContentSection(section);
+            this.showNotification(`${text} bölümüne geçiliyor...`, 'info');
+        } else {
+            this.showNotification(`"${text}" menü öğesi tıklandı!`, 'info');
         }
+        
+        // Mobile menüyü kapat
+        const nav = document.querySelector('.nav');
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        if (nav && mobileMenuBtn) {
+            nav.classList.remove('active');
+            mobileMenuBtn.classList.remove('active');
+        }
+    }
+    
+    // Yedek section geçiş fonksiyonu - Scale + Fade efekti ile
+    switchContentSection(sectionName) {
+        console.log('Content section geçişi:', sectionName);
+        
+        // Scroll to top fonksiyonu
+        const scrollToTop = () => {
+            if (window.scrollTo) {
+                window.scrollTo(0, 0);
+            }
+            if (document.documentElement) {
+                document.documentElement.scrollTop = 0;
+            }
+            if (document.body) {
+                document.body.scrollTop = 0;
+            }
+            if (document.scrollingElement) {
+                document.scrollingElement.scrollTop = 0;
+            }
+        };
+        
+        // Hemen scroll yap
+        scrollToTop();
+        
+        // Hero section - Scale + Fade efekti
+        const heroSection = document.querySelector('.hero');
+        if (heroSection) {
+            if (sectionName === 'home') {
+                heroSection.classList.remove('exiting');
+                heroSection.classList.add('entering');
+                heroSection.style.display = 'flex';
+                setTimeout(() => {
+                    heroSection.classList.add('active');
+                }, 10);
+            } else {
+                heroSection.classList.remove('entering', 'active');
+                heroSection.classList.add('exiting');
+                setTimeout(() => {
+                    heroSection.style.display = 'none';
+                    heroSection.classList.remove('exiting');
+                }, 500);
+            }
+        }
+        
+        // Categories section - Scale + Fade efekti
+        const categoriesSection = document.querySelector('.categories');
+        if (categoriesSection) {
+            if (sectionName === 'home') {
+                categoriesSection.classList.remove('exiting');
+                categoriesSection.classList.add('entering');
+                categoriesSection.style.display = 'block';
+                setTimeout(() => {
+                    categoriesSection.classList.add('active');
+                }, 10);
+            } else {
+                categoriesSection.classList.remove('entering', 'active');
+                categoriesSection.classList.add('exiting');
+                setTimeout(() => {
+                    categoriesSection.style.display = 'none';
+                    categoriesSection.classList.remove('exiting');
+                }, 500);
+            }
+        }
+        
+        // Tüm content section'ları Scale + Fade ile gizle
+        const allSections = document.querySelectorAll('.content-section');
+        allSections.forEach(section => {
+            if (section.classList.contains('active')) {
+                section.classList.remove('active', 'entering');
+                section.classList.add('exiting');
+                setTimeout(() => {
+                    section.style.display = 'none';
+                    section.classList.remove('exiting');
+                }, 500);
+            } else {
+                section.classList.remove('active', 'entering', 'exiting');
+                section.style.display = 'none';
+            }
+        });
+        
+        // İlgili section'ı Scale + Fade ile göster
+        if (sectionName === 'home') {
+            console.log('Ana sayfa gösteriliyor - hero ve categories görünür');
+        } else {
+            const targetSection = document.getElementById(`${sectionName}-section`);
+            if (targetSection) {
+                console.log('Target section bulundu:', targetSection.id);
+                targetSection.classList.remove('exiting');
+                targetSection.classList.add('entering');
+                targetSection.style.display = 'block';
+                setTimeout(() => {
+                    targetSection.classList.add('active');
+                }, 10);
+            } else {
+                console.log('Target section bulunamadı:', `${sectionName}-section`);
+            }
+        }
+        
+        // Smooth scroll için kısa bir gecikme
+        setTimeout(() => {
+            if (window.scrollTo) {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            }
+        }, 100);
     }
 
     scrollToCategory(category) {
@@ -2973,28 +3094,20 @@ class StreamMax {
     }
 
     setupNavigationLinks() {
-        console.log('Navigasyon linkleri kuruluyor...');
+        console.log('Navigasyon linkleri kontrol ediliyor...');
         const navLinks = document.querySelectorAll('.nav-link');
         console.log(`${navLinks.length} adet navigasyon linki bulundu`);
         
+        // button-activator.js zaten navigasyonu yönetiyor
+        // Bu fonksiyon sadece kontrol amaçlı
         navLinks.forEach((link, index) => {
-            // Önce mevcut event listener'ları temizle
-            link.removeEventListener('click', this.handleNavigation);
-            
-            // Yeni event listener ekle
-            link.addEventListener('click', (e) => {
-                console.log(`Navigasyon linki tıklandı: ${link.textContent.trim()}`);
-                this.handleNavigation(e);
-            });
-            
-            // Debug için
-            console.log(`Link ${index + 1}: ${link.textContent.trim()} - Event listener eklendi`);
+            console.log(`Link ${index + 1}: ${link.textContent.trim()} - button-activator.js tarafından yönetiliyor`);
         });
         
-        console.log('Navigasyon linkleri başarıyla kuruldu!');
+        console.log('Navigasyon linkleri button-activator.js tarafından yönetiliyor!');
         
-        // Test navigasyon butonları
-        this.testNavigationButtons();
+        // Test navigasyon butonları (opsiyonel)
+        // this.testNavigationButtons();
     }
 
     testNavigationButtons() {
